@@ -1,10 +1,10 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
+  padding: 1rem;
+  /* min-height: 100vh; */
 }
 
 .description {
@@ -12,10 +12,14 @@
   justify-content: inherit;
   align-items: inherit;
   font-size: 0.85rem;
-  max-width: var(--max-width);
+  padding: 0 1rem;
+  /* max-width: var(--max-width); */
   width: 100%;
   z-index: 2;
   font-family: var(--font-mono);
+
+  display: flex;
+  justify-content: space-between;
 }
 
 .description a {
@@ -52,6 +56,38 @@
   background: rgba(var(--card-rgb), 0);
   border: 1px solid rgba(var(--card-border-rgb), 0);
   transition: background 200ms, border 200ms;
+}
+
+.card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 600;
+}
+
+.formGroup input {
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(var(--card-border-rgb), 1);
+  background: rgba(var(--card-rgb), 0.1);
+  transition: border 200ms;
+}
+
+.formGroup button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(var(--card-border-rgb), 0.3);
+  background: rgba(var(--card-rgb), 0.1);
+  transition: border 200ms;
 }
 
 .card span {
@@ -95,13 +131,25 @@
   z-index: -1;
 }
 
-.center::before,
+/* .center::before,
 .center::after {
   content: '';
   left: 50%;
   position: absolute;
   filter: blur(45px);
   transform: translateZ(0);
+} */
+
+.logoutBtn {
+  padding: 0.5rem 1rem;
+  /* border-radius: var(--border-radius); */
+  border: 1px solid rgba(var(--card-border-rgb), 0.3);
+  background: rgba(var(--card-rgb), 0.1);
+  transition: border 200ms;
+
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .logo {
