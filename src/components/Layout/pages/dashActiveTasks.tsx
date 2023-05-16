@@ -273,6 +273,15 @@ const DashMain = () => {
           pricePerHourInRs
         }
 
+        user {
+          firstname
+          lastname
+          email
+          image
+          phone
+          permanentAddress
+        }
+
         size
         status
 
@@ -369,6 +378,7 @@ const DashMain = () => {
           status: task.status,
           createdAt: task.createdAt,
           taskerInContact: task.taskerInContact,
+          user: task.user,
           id: task.id,
           isPaymentDone: task.isPaymentDone,
           category: task.category,
@@ -398,6 +408,8 @@ const DashMain = () => {
             </div>
           );
         },
+        // defaultSortOrder: 'descend',
+        sorter: (a: any, b: any) => a.dueDate - b.dueDate,
       },
       // {
       //   title: 'Created At',
@@ -434,10 +446,36 @@ const DashMain = () => {
         render: (status: any) => {
           return (
             <div>
-              <Tag color={getStatusTagColor(status)}>{status}</Tag>
+              <Tag
+              style={{
+                textTransform: 'uppercase',
+              }}
+              color={getStatusTagColor(status)}
+            >
+              {status}
+            </Tag>
             </div>
           );
         },
+        filters: [
+          {
+            text: 'open',
+            value: 'open',
+          },
+          {
+            text: 'in_progress',
+            value: 'in_progress',
+          },
+          {
+            text: 'done',
+            value: 'done',
+          },
+          {
+            text: 'cancelled',
+            value: 'cancelled',
+          },
+        ],
+        onFilter: (value: any, record: any) => record.status.indexOf(value) === 0,
       },
       {
         title: 'Tasker',
@@ -449,9 +487,45 @@ const DashMain = () => {
               <span>
                 {taskerInContact?.firstname} {taskerInContact?.lastname}
               </span>
+              {/* <span>
+                {taskerInContact?.phone ? `  (${taskerInContact?.phone})` : ''}
+              </span> */}
             </div>
           );
         },
+        // sort by if there is no tasker assigned or there is one
+        // sorter: (a: any, b: any) => {
+        //   if (a.taskerInContact && b.taskerInContact) {
+        //     return a.taskerInContact.firstname.localeCompare(
+        //       b.taskerInContact.firstname
+        //     );
+        //   } else if (a.taskerInContact) {
+        //     return -1;
+        //   } else if (b.taskerInContact) {
+        //     return 1;
+        //   } else {
+        //     return 0;
+        //   }
+        // }
+        filters: [
+          {
+            text: 'Tasker Assigned',
+            value: 'yes',
+          },
+          {
+            text: 'Taskers Not Assigned',
+            value: 'no',
+          },
+        ],
+        onFilter: (value: any, record: any) => {
+          // check if the record contains a tasker
+          if (value === 'no' && !record.taskerInContact) {
+            return true
+          } else if (value === 'yes' && record.taskerInContact) {
+            return true
+          } 
+          return false
+        }
       },
       // {
       //   title: 'Is Payment Done',
@@ -585,7 +659,24 @@ const DashMain = () => {
               <h2>All Tasks</h2>
               <div className="table-container">
                 {/* <Table columns={tableColumns} data={tableData} /> */}
-                <Table  columns={tableColumns} dataSource={tableData} />
+                <Table 
+                  columns={tableColumns}
+                  dataSource={tableData}
+                  expandable={{
+                    expandedRowRender: (record) => (
+                      <>
+                        <p style={{ margin: 0 }}>
+                          {record.user ? `User : ${record?.user?.firstname} ${record?.user?.lastname} | Email : ${record?.user?.email}` : ''}
+                        </p>
+                        <p style={{ margin: 0 }}>
+                          {record.taskerInContact ? `Tasker : ${record?.taskerInContact?.firstname} ${record?.taskerInContact?.lastname} | Email : ${record?.taskerInContact?.email} | Phone ${record?.taskerInContact?.phone}` : ''}
+                        </p>
+                      </>
+                    ),
+                    rowExpandable: (record) => record.id !== 'Not Expandable',
+                  }}
+                  rowKey={(record) => record.id}
+                />
               </div>
             </div>
           ) : (
