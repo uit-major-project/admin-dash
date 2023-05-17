@@ -63,7 +63,6 @@ function createApolloClient() {
 }
 
 export function initializeApollo(
-  // eslint-disable-next-line unicorn/no-null
   initialState: any = null
 ): ApolloClient<NormalizedCacheObject> {
   const _apolloClient = apolloClient ?? createApolloClient();

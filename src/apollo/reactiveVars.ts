@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-null */
 import { makeVar } from '@apollo/client';
 
 import { User, Tasker, Task, Admin } from '../utils/types';
